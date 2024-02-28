@@ -1,6 +1,9 @@
 ﻿namespace System.Text.Json.Serialization
 {
 #if NET6_0_OR_GREATER
+	/// <summary>
+	/// DateRange的json解析
+	/// </summary>
 	public class DateRangeJsonConverter : JsonConverter<DateRange>
 	{
 		/// <inheritdoc/>
@@ -25,13 +28,13 @@
 				throw new JsonException();
 			}
 
-			return new DateRange { StartTime = startTime, EndTime = endTime };
+			return new DateRange { StartDate = startTime, EndDate = endTime };
 		}
 		internal static void WriteCore(Utf8JsonWriter writer, DateRange value, JsonSerializerOptions options)
 		{
 			writer.WriteStartArray();
-			writer.WriteStringValue(value.StartTime.ToString("o"));
-			writer.WriteStringValue(value.EndTime.ToString("o"));
+			writer.WriteStringValue(value.StartDate.ToString("o"));
+			writer.WriteStringValue(value.EndDate.ToString("o"));
 			writer.WriteEndArray();
 		}
 	}

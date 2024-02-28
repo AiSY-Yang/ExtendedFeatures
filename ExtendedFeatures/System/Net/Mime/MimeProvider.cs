@@ -23,6 +23,7 @@ namespace System.Net.Mime
 		}
 		#region field
 
+#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
 		public const string ai = "application/postscript";
 		public const string aif = "audio/x-aiff";
 		public const string aifc = "audio/x-aiff";

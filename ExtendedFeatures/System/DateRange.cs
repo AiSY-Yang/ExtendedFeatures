@@ -9,8 +9,14 @@ namespace System
 	[JsonConverter(typeof(DateRangeJsonConverter))]
 	public struct DateRange
 	{
-		public DateOnly StartTime { get; set; }
-		public DateOnly EndTime { get; set; }
+		/// <summary>
+		/// 开始日期
+		/// </summary>
+		public DateOnly StartDate { get; set; }
+		/// <summary>
+		/// 结束日期
+		/// </summary>
+		public DateOnly EndDate { get; set; }
 	}
 #endif
 }

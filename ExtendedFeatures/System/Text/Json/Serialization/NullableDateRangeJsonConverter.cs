@@ -1,6 +1,9 @@
 ﻿namespace System.Text.Json.Serialization
 {
 #if NET6_0_OR_GREATER
+	/// <summary>
+	/// 可为空的DateRange的json解析
+	/// </summary>
 	public class NullableDateRangeJsonConverter : JsonConverter<DateRange?>
 	{
 		/// <inheritdoc/>

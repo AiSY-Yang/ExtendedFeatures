@@ -85,8 +85,8 @@ namespace ExtensionMethodsTests
 			var str = "[\"2022-12-01\",\"2023-10-01\"]";
 
 			var dateRange = JsonSerializer.Deserialize<DateRange>(str, jsonSerializerOptions);
-			Assert.Equal(DateOnly.Parse("2022-12-01"), dateRange.StartTime);
-			Assert.Equal(DateOnly.Parse("2023-10-01"), dateRange.EndTime);
+			Assert.Equal(DateOnly.Parse("2022-12-01"), dateRange.StartDate);
+			Assert.Equal(DateOnly.Parse("2023-10-01"), dateRange.EndDate);
 			Assert.Equal(str, JsonSerializer.Serialize(dateRange, jsonSerializerOptions));
 			var dateRange2 = JsonSerializer.Deserialize<DateRange>("[\"2022-12-01\",\n\"2023-10-01\"]", jsonSerializerOptions);
 			Assert.Equal(dateRange, dateRange2);
@@ -102,7 +102,35 @@ namespace ExtensionMethodsTests
 			Assert.Null(dateRange);
 			Assert.Equal(str, JsonSerializer.Serialize(dateRange, jsonSerializerOptions));
 			var dateRange2 = JsonSerializer.Deserialize<DateRange>("[\"2022-12-01\",\n\"2023-10-01\"]", jsonSerializerOptions);
-			Assert.Equal(DateOnly.Parse("2022-12-01"), dateRange2.StartTime);
+			Assert.Equal(DateOnly.Parse("2022-12-01"), dateRange2.StartDate);
+		}
+		[Fact]
+		public void DateTimeOffsetRangeJsonConverter()
+		{
+			JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+			jsonSerializerOptions.Converters.Add(new DateRangeJsonConverter());
+			jsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+			var str = "[\"2022-12-01T12:23:34.1234567+01:00\",\"2023-10-01T00:00:00+00:00\"]";
+
+			var dateRange = JsonSerializer.Deserialize<DateTimeOffsetRange>(str, jsonSerializerOptions);
+			Assert.Equal(DateTimeOffset.Parse("2022-12-01T12:23:34.1234567+01:00"), dateRange.StartDateTimeOffset);
+			Assert.Equal(DateTimeOffset.Parse("2023-10-01Z"), dateRange.EndDateTimeOffset);
+			Assert.Equal(str, JsonSerializer.Serialize(dateRange, jsonSerializerOptions));
+			var dateRange2 = JsonSerializer.Deserialize<DateTimeOffsetRange>("[\"2022-12-01T12:23:34.1234567+01:00\",\n \"2023-10-01Z\"]", jsonSerializerOptions);
+			Assert.Equal(dateRange, dateRange2);
+		}
+		[Fact]
+		public void NUllableDateTimeOffsetRangeJsonConverter()
+		{
+			JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions();
+			jsonSerializerOptions.Converters.Add(new DateRangeJsonConverter());
+			var str = "null";
+
+			var dateRange = JsonSerializer.Deserialize<DateTimeOffsetRange?>(str, jsonSerializerOptions);
+			Assert.Null(dateRange);
+			Assert.Equal(str, JsonSerializer.Serialize(dateRange, jsonSerializerOptions));
+			var dateRange2 = JsonSerializer.Deserialize<DateTimeOffsetRange>("[\"2022-12-01T12:23:34+01:00\",\n \"2023-10-01Z\"]", jsonSerializerOptions);
+			Assert.Equal(DateTimeOffset.Parse("2022-12-01T12:23:34+01:00"), dateRange2.StartDateTimeOffset);
 		}
 #endif
 	}
